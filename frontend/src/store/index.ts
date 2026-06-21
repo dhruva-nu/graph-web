@@ -30,6 +30,7 @@ export const useStore = create<Store>((set, get) => ({
   flashedKeys: new Set(),
   activeNode: null,
   selectedSeq: null,
+  topologyDir: "TB",
   contextValues: {},
   seedValues: {},
 
@@ -89,6 +90,9 @@ export const useStore = create<Store>((set, get) => ({
   },
   select(seq) {
     set({ selectedSeq: seq });
+  },
+  setTopologyDir(dir) {
+    set({ topologyDir: dir });
   },
 
   async send(text) {
