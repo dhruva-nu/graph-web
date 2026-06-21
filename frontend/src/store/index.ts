@@ -1,52 +1,11 @@
 import { create } from "zustand";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-import { api } from "./lib/api";
-import type {
-  AssistantSummary,
-  ChatMessage,
-  ContextField,
-  GwEvent,
-  Schemas,
-  StateField,
-  Topology,
-} from "./lib/types";
+import { api } from "../lib/api";
+import type { ContextField, GwEvent, StateField } from "../lib/types";
+import { reduceEvent } from "./eventReducer";
+import type { Store } from "./types";
 
-type Status = "idle" | "loading" | "running" | "error";
-
-interface Store {
-  // bootstrap
-  manifest: any | null;
-  assistants: AssistantSummary[];
-  graphId: string | null;
-  schemas: Schemas | null;
-  topology: Topology | null;
-  env: any | null;
-  threadId: string | null;
-  status: Status;
-  bootError: string | null;
-
-  // run state
-  messages: ChatMessage[];
-  events: GwEvent[];
-  turnPrompts: Record<string, string>;
-  stateValues: Record<string, unknown>;
-  flashedKeys: Set<string>;
-  activeNode: string | null;
-  selectedSeq: number | null;
-
-  // mock editor working values
-  contextValues: Record<string, unknown>;
-  seedValues: Record<string, unknown>;
-
-  // actions
-  boot: () => Promise<void>;
-  selectGraph: (id: string) => Promise<void>;
-  newThread: () => Promise<void>;
-  setContextValue: (name: string, v: unknown) => void;
-  setSeedValue: (name: string, v: unknown) => void;
-  select: (seq: number | null) => void;
-  send: (text: string) => Promise<void>;
-}
+export type { Status, Store } from "./types";
 
 function defaultsFrom(fields: { name: string; default: unknown }[]) {
   const o: Record<string, unknown> = {};
@@ -147,54 +106,6 @@ export const useStore = create<Store>((set, get) => ({
       ],
     }));
 
-    const apply = (ev: GwEvent) => {
-      set((s) => {
-        const next: Partial<Store> = { events: [...s.events, ev] };
-        if (ev.type === "run_start") {
-          next.turnPrompts = { ...s.turnPrompts, [ev.run_id]: text };
-        } else if (ev.type === "message_delta" && ev.delta) {
-          next.messages = s.messages.map((m) =>
-            m.id === aiId ? { ...m, content: m.content + ev.delta } : m
-          );
-          if (ev.author) next.activeNode = ev.author;
-        } else if (ev.type === "node_end") {
-          if (ev.author) next.activeNode = ev.author;
-          if (ev.state_delta) {
-            const sv = { ...s.stateValues, ...ev.state_delta };
-            next.stateValues = sv;
-            next.flashedKeys = new Set(Object.keys(ev.state_delta));
-          }
-        } else if (ev.type === "state_snapshot" && ev.state_snapshot) {
-          next.stateValues = ev.state_snapshot;
-        } else if (ev.type === "tool_call" && ev.tool) {
-          next.messages = s.messages.map((m) =>
-            m.id === aiId
-              ? { ...m, tools: [...(m.tools || []), { name: ev.tool!.name!, args: ev.tool!.args }] }
-              : m
-          );
-          if (ev.author) next.activeNode = ev.author;
-        } else if (ev.type === "tool_result" && ev.tool) {
-          next.messages = s.messages.map((m) =>
-            m.id === aiId
-              ? {
-                  ...m,
-                  tools: (m.tools || []).map((t) =>
-                    t.name === ev.tool!.name && t.result === undefined
-                      ? { ...t, result: ev.tool!.result, mocked: ev.tool!.mocked }
-                      : t
-                  ),
-                }
-              : m
-          );
-        } else if (ev.type === "message" && ev.message && ev.message.content) {
-          next.messages = s.messages.map((m) =>
-            m.id === aiId && !m.content ? { ...m, content: ev.message!.content } : m
-          );
-        }
-        return next as Store;
-      });
-    };
-
     try {
       await fetchEventSource(`/api/threads/${threadId}/runs/stream`, {
         method: "POST",
@@ -210,7 +121,8 @@ export const useStore = create<Store>((set, get) => ({
         onmessage(ev) {
           if (!ev.data) return;
           try {
-            apply(JSON.parse(ev.data) as GwEvent);
+            const parsed = JSON.parse(ev.data) as GwEvent;
+            set((s) => reduceEvent(s, parsed, aiId, text) as Store);
           } catch {
             /* ignore */
           }

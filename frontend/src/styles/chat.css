@@ -1,0 +1,27 @@
+/* Chat panel: message list, bubbles, tool chips, and composer. */
+.chat { display: flex; flex-direction: column; height: 100%; }
+.msgs { flex: 1; overflow: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.msg { display: flex; flex-direction: column; gap: 5px; max-width: 100%; }
+.msg .who { font-size: var(--fs-sm); color: var(--text-2); display: flex; gap: 7px; align-items: center; }
+.msg .who .badge { width: 6px; height: 14px; border-radius: 3px; }
+.msg .bubble {
+  padding: 10px 13px; border-radius: var(--radius); line-height: 1.5;
+  border: 1px solid var(--border); white-space: pre-wrap; word-break: break-word;
+}
+.msg.human .bubble { background: var(--bg-3); border-color: var(--border-strong); }
+.msg.ai .bubble { background: var(--bg-2); }
+.msg .badge.human { background: var(--c-human); }
+.msg .badge.ai { background: var(--c-ai); }
+.toolchip {
+  display: inline-flex; align-items: center; gap: 7px; align-self: flex-start;
+  background: var(--bg-2); border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--c-tool); border-radius: var(--radius-sm);
+  padding: 5px 10px; font-family: var(--font-mono); font-size: var(--fs-sm);
+}
+.toolchip.mocked { border-left-color: var(--c-tool-mocked); }
+.toolchip .mocktag {
+  background: var(--c-tool-mocked); color: #1a0a14; border-radius: 3px;
+  font-size: 9.5px; font-weight: 700; padding: 1px 5px; letter-spacing: 0.04em;
+}
+.composer { border-top: 1px solid var(--border); padding: 11px; display: flex; gap: 9px; }
+.composer textarea { flex: 1; resize: none; min-height: 40px; max-height: 140px; line-height: 1.45; }
