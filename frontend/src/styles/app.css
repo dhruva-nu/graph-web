@@ -213,9 +213,20 @@ pre.json {
 
 /* topology */
 .react-flow__node.gwnode {
+  width: 168px; box-sizing: border-box; text-align: center;
   background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--text-0);
-  border-radius: var(--radius-sm); padding: 7px 13px; font-family: var(--font-mono);
+  border-radius: var(--radius-sm); padding: 9px 13px; font-family: var(--font-mono);
   font-size: var(--fs-mono); box-shadow: none;
 }
 .react-flow__node.gwnode.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 16px rgba(94,234,212,0.3); }
 .react-flow__node.gwnode.terminal { color: var(--text-2); border-style: dashed; }
+
+/* topology toolbar */
+.topo-toolbar { display: flex; gap: 4px; }
+.topo-btn {
+  background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--text-2);
+  border-radius: var(--radius-sm); padding: 3px 9px; font-size: var(--fs-sm);
+  font-family: var(--font-mono); cursor: pointer;
+}
+.topo-btn:hover { color: var(--text-0); border-color: var(--accent); }
+.topo-btn.on { color: var(--text-0); border-color: var(--accent); background: var(--bg-1); }
