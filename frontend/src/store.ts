@@ -34,6 +34,9 @@ interface Store {
   activeNode: string | null;
   selectedSeq: number | null;
 
+  // topology view layout direction (user-controlled)
+  topologyDir: "TB" | "LR";
+
   // mock editor working values
   contextValues: Record<string, unknown>;
   seedValues: Record<string, unknown>;
@@ -45,6 +48,7 @@ interface Store {
   setContextValue: (name: string, v: unknown) => void;
   setSeedValue: (name: string, v: unknown) => void;
   select: (seq: number | null) => void;
+  setTopologyDir: (dir: "TB" | "LR") => void;
   send: (text: string) => Promise<void>;
 }
 
@@ -71,6 +75,7 @@ export const useStore = create<Store>((set, get) => ({
   flashedKeys: new Set(),
   activeNode: null,
   selectedSeq: null,
+  topologyDir: "TB",
   contextValues: {},
   seedValues: {},
 
@@ -130,6 +135,9 @@ export const useStore = create<Store>((set, get) => ({
   },
   select(seq) {
     set({ selectedSeq: seq });
+  },
+  setTopologyDir(dir) {
+    set({ topologyDir: dir });
   },
 
   async send(text) {
