@@ -1,0 +1,63 @@
+/* Trace panel: turns, event rows, and the JSON detail view. */
+.trace { padding: 7px; display: flex; flex-direction: column; gap: 4px; }
+.turn { display: flex; flex-direction: column; gap: 3px; }
+.turn-head {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 7px 9px; border-radius: var(--radius-sm);
+  background: var(--bg-2); border: 1px solid var(--border);
+}
+.turn-head:hover { border-color: var(--border-strong); }
+.turn-head .chev { color: var(--text-2); transition: transform .12s; flex: none; font-size: 10px; }
+.turn-head .chev.open { transform: rotate(90deg); }
+.turn-head .turn-n {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--accent); font-weight: 600; flex: none;
+}
+.turn-head .turn-prompt {
+  flex: 1; color: var(--text-1); overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; font-size: var(--fs-sm);
+}
+.turn-head .turn-live {
+  flex: none; font-size: 9px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--accent-text); background: var(--accent); border-radius: 3px; padding: 1px 5px;
+}
+.turn-head .turn-count {
+  flex: none; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-2);
+  background: var(--bg-0); border: 1px solid var(--border); border-radius: 999px; padding: 0 7px;
+}
+.turn .erow { margin-left: 10px; }
+.erow {
+  display: flex; gap: 9px; align-items: flex-start; cursor: pointer;
+  padding: 7px 9px; border-radius: var(--radius-sm);
+  border: 1px solid transparent; position: relative;
+}
+.erow:hover { background: var(--bg-2); }
+.erow.sel { background: var(--bg-2); border-color: var(--border-strong); }
+.erow .rail { width: 3px; align-self: stretch; border-radius: 3px; background: var(--text-2); flex: none; }
+.erow .chip {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.02em;
+  padding: 1px 6px; border-radius: 4px; background: var(--bg-3); color: var(--text-1);
+  white-space: nowrap; flex: none; text-transform: uppercase;
+}
+.erow .etext { color: var(--text-1); font-family: var(--font-mono); font-size: var(--fs-mono);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.erow .author { color: var(--text-0); }
+.erow .mocktag { background: var(--c-tool-mocked); color: #1a0a14; border-radius: 3px;
+  font-size: 9px; font-weight: 700; padding: 1px 5px; flex: none; }
+
+.detail { padding: 12px 14px; }
+.detail h4 { margin: 0 0 8px; font-size: var(--fs-sm); text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-1); }
+.detail-close {
+  margin-left: auto; background: transparent; border: 1px solid var(--border);
+  color: var(--text-2); border-radius: var(--radius-sm); cursor: pointer;
+  width: 22px; height: 22px; line-height: 1; font-size: 12px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: border-color .12s, color .12s;
+}
+.detail-close:hover { border-color: var(--c-error); color: var(--c-error); }
+pre.json {
+  margin: 0; background: var(--bg-0); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 11px; overflow: auto;
+  font-family: var(--font-mono); font-size: var(--fs-mono); line-height: 1.55; color: var(--text-0);
+}

@@ -1,0 +1,72 @@
+/* App shell: command bar, shared controls, workspace grid, and panels. */
+.app { display: flex; flex-direction: column; height: 100%; }
+
+.cmdbar {
+  height: var(--bar-h); min-height: var(--bar-h);
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+}
+.brand { display: flex; align-items: center; gap: 9px; font-weight: 600; letter-spacing: -0.01em; }
+.brand .logo {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-dim));
+  box-shadow: 0 0 0 1px var(--border-strong), 0 2px 8px rgba(94,234,212,0.15);
+}
+.brand .sub { color: var(--text-2); font-weight: 400; font-size: var(--fs-sm); }
+.cmdbar .spacer { flex: 1; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--bg-3); border: 1px solid var(--border);
+  border-radius: 999px; padding: 5px 11px; font-size: var(--fs-sm);
+  color: var(--text-1);
+}
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-2); }
+.pill .dot.live { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.pill .dot.err { background: var(--c-error); }
+
+select.gw, input.gw, textarea.gw {
+  background: var(--bg-0); color: var(--text-0);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 6px 9px; font-family: var(--font-mono); font-size: var(--fs-mono);
+  outline: none;
+}
+select.gw:focus, input.gw:focus, textarea.gw:focus { border-color: var(--accent); }
+
+button.gw {
+  background: var(--bg-3); color: var(--text-0);
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  padding: 6px 12px; font-size: var(--fs-sm); cursor: pointer;
+  font-family: var(--font-ui); transition: border-color .12s, background .12s;
+}
+button.gw:hover { border-color: var(--accent); }
+button.gw.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+button.gw.primary:hover { filter: brightness(1.08); }
+button.gw:disabled { opacity: .45; cursor: default; }
+
+.workspace {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr 1.1fr;
+  gap: var(--gutter); padding: var(--gutter);
+}
+.panel {
+  background: var(--bg-1); border: 1px solid var(--border);
+  border-radius: var(--radius); display: flex; flex-direction: column;
+  min-height: 0; overflow: hidden;
+}
+.panel > .phead {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 13px; border-bottom: 1px solid var(--border);
+  font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-1); background: var(--bg-2);
+}
+.panel > .phead .tab {
+  cursor: pointer; padding: 2px 4px; border-radius: 4px; color: var(--text-2);
+  text-transform: none; letter-spacing: 0;
+}
+.panel > .phead .tab.active { color: var(--text-0); }
+.panel > .phead .right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.panel > .pbody { flex: 1; min-height: 0; overflow: auto; }

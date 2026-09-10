@@ -1,0 +1,46 @@
+/* Right-hand panels: state inspector, mock editor, and topology nodes. */
+
+/* State inspector */
+.state { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+.srow { display: grid; grid-template-columns: 130px 1fr; gap: 10px; padding: 6px 7px;
+  border-radius: var(--radius-sm); align-items: start; }
+.srow:hover { background: var(--bg-2); }
+.srow.flash { animation: flash 1.1s ease-out; }
+@keyframes flash { from { background: rgba(167,139,250,0.22); } to { background: transparent; } }
+.srow .k { font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--c-state); }
+.srow .v { font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-0);
+  white-space: pre-wrap; word-break: break-word; }
+.srow .v.null { color: var(--text-2); font-style: italic; }
+
+/* Mock editor */
+.mocks { padding: 12px 13px; display: flex; flex-direction: column; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: var(--fs-sm); color: var(--text-1); display: flex; gap: 7px; align-items: center; }
+.field label .ttag { font-family: var(--font-mono); font-size: 9.5px; color: var(--text-2);
+  border: 1px solid var(--border); border-radius: 3px; padding: 0 4px; }
+.section-title { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-2); border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+.tool-mock { border: 1px solid var(--border); border-left: 3px solid var(--c-tool);
+  border-radius: var(--radius-sm); padding: 9px 11px; }
+.tool-mock .tname { font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--c-tool); }
+.tool-mock .tdesc { color: var(--text-2); font-size: var(--fs-sm); margin-top: 3px; }
+
+/* Topology */
+.react-flow__node.gwnode {
+  width: 168px; box-sizing: border-box; text-align: center;
+  background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--text-0);
+  border-radius: var(--radius-sm); padding: 9px 13px; font-family: var(--font-mono);
+  font-size: var(--fs-mono); box-shadow: none;
+}
+.react-flow__node.gwnode.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 16px rgba(94,234,212,0.3); }
+.react-flow__node.gwnode.terminal { color: var(--text-2); border-style: dashed; }
+
+/* Topology toolbar */
+.topo-toolbar { display: flex; gap: 4px; }
+.topo-btn {
+  background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--text-2);
+  border-radius: var(--radius-sm); padding: 3px 9px; font-size: var(--fs-sm);
+  font-family: var(--font-mono); cursor: pointer;
+}
+.topo-btn:hover { color: var(--text-0); border-color: var(--accent); }
+.topo-btn.on { color: var(--text-0); border-color: var(--accent); background: var(--bg-1); }

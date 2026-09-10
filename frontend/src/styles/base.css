@@ -1,0 +1,22 @@
+/* Reset, document defaults, scrollbars, and text utilities. */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  background: var(--bg-0);
+  color: var(--text-0);
+  font-family: var(--font-ui);
+  font-size: var(--fs-ui);
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent-dim); color: var(--text-0); }
+
+/* scrollbars */
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.mono { font-family: var(--font-mono); font-size: var(--fs-mono); }
+.dim { color: var(--text-1); }
+.dim2 { color: var(--text-2); }
+
+.empty { color: var(--text-2); padding: 24px; text-align: center; font-size: var(--fs-sm); }
